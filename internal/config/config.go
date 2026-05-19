@@ -31,3 +31,9 @@ func Read() Config {
 
 	return new_config
 }
+
+func getConfigFilePath() (string, error) {
+	config_file_path, err := os.UserHomeDir()
+	config_file_path += "/.gatorconfig"
+	return config_file_path, err
+}
