@@ -37,3 +37,8 @@ func getConfigFilePath() (string, error) {
 	config_file_path += "/.gatorconfig"
 	return config_file_path, err
 }
+
+func (c Config) SetUser(username string) {
+	c.CurrentUserName = username
+	write(c)
+}
