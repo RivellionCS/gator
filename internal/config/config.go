@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 )
@@ -20,6 +21,19 @@ type state struct {
 type command struct {
 	name string
 	arguments []string
+}
+
+type commands struct {
+	command_list map[string]func(*state, command) error
+}
+
+func handlerLogin(s *state, cmd command) error {
+	if len(cmd.arguments) == 0 {
+		return errors.New("the login handler expects a single argument, the username")
+	}
+	s.config.SetUser(cmd.arguments[2])
+	fmt.Println("the user has been set")
+	return nil
 }
 
 func Read() Config {
