@@ -27,6 +27,11 @@ type commands struct {
 	command_list map[string]func(*state, command) error
 }
 
+func (c *commands) run(s *state, cmd command) error {
+	c.command_list[cmd.name]
+	return nil
+}
+
 func handlerLogin(s *state, cmd command) error {
 	if len(cmd.arguments) == 0 {
 		return errors.New("the login handler expects a single argument, the username")
