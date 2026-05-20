@@ -13,6 +13,15 @@ type Config struct {
 	CurrentUserName string `json:"current_user_name"`
 }
 
+type state struct {
+	config *Config
+}
+
+type command struct {
+	name string
+	arguments []string
+}
+
 func Read() Config {
 	config_path, err := getConfigFilePath()
 	if err != nil {
