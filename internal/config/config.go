@@ -28,8 +28,16 @@ type commands struct {
 }
 
 func (c *commands) run(s *state, cmd command) error {
-	c.command_list[cmd.name]
-	return nil
+	fn, ok := c.command_list[cmd.name]
+	if ok {
+		fn(s, cmd)
+		return nil
+	}
+	return errors.New("could not run command")
+}
+
+func (c *commands) register(name string, f func(*state, command) error) {
+	c.command_list[name] = f
 }
 
 func handlerLogin(s *state, cmd command) error {
