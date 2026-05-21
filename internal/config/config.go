@@ -13,25 +13,25 @@ type Config struct {
 	CurrentUserName string `json:"current_user_name"`
 }
 
-func Read() Config {
+func Read() (Config, error) {
 	config_path, err := getConfigFilePath()
 	if err != nil {
-		fmt.Printf("Error getting file path: %v\n", err)
+		return Config{}, err
 	}
 
 	data, err := os.ReadFile(config_path)
 	if err != nil {
-		fmt.Printf("Error reading file path: %v\n", err)
+		return Config{}, err
 	}
 
 	new_config := Config{}
 
 	err = json.Unmarshal(data, &new_config)
 	if err != nil {
-		fmt.Printf("Error parsing JSON: %v\n", err)
+		return Config{}, err
 	}
 
-	return new_config
+	return new_config, nil
 }
 
 func getConfigFilePath() (string, error) {
@@ -40,12 +40,12 @@ func getConfigFilePath() (string, error) {
 	return config_file_path, err
 }
 
-func (c Config) SetUser(username string) {
+func (c *Config) SetUser(username string) error {
 	c.CurrentUserName = username
-	write(c)
+	return write(c)
 }
 
-func write(cfg Config) error {
+func write(cfg *Config) error {
 	jsonData, err := json.Marshal(cfg)
 	if err != nil {
 		return fmt.Errorf("Error could not convert to json: %v\n", err)
