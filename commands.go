@@ -22,8 +22,7 @@ type commands struct {
 func (c *commands) run(s *state, cmd command) error {
 	fn, ok := c.command_list[cmd.name]
 	if ok {
-		fn(s, cmd)
-		return nil
+		return fn(s, cmd)
 	}
 	return errors.New("could not run command")
 }
