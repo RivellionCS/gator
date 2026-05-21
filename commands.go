@@ -7,20 +7,20 @@ import (
 )
 
 type state struct {
-	Config *config.Config
+	config *config.Config
 }
 
 type command struct {
-	Name string
-	Arguments []string
+	name string
+	arguments []string
 }
 
 type commands struct {
 	command_list map[string]func(*state, command) error
 }
 
-func (c *commands) Run(s *state, cmd command) error {
-	fn, ok := c.command_list[cmd.Name]
+func (c *commands) run(s *state, cmd command) error {
+	fn, ok := c.command_list[cmd.name]
 	if ok {
 		fn(s, cmd)
 		return nil
@@ -28,6 +28,6 @@ func (c *commands) Run(s *state, cmd command) error {
 	return errors.New("could not run command")
 }
 
-func (c *commands) Register(name string, f func(*state, command) error) {
+func (c *commands) register(name string, f func(*state, command) error) {
 	c.command_list[name] = f
 }
