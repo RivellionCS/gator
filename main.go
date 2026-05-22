@@ -1,10 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 
 	"github.com/RivellionCS/gator/internal/config"
+	"github.com/RivellionCS/gator/internal/database"
 	_ "github.com/lib/pq"
 )
 
@@ -14,8 +16,11 @@ func main() {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
+	db, err := sql.Open("postgres", newConfig.DbURL)
+	dbQueries := database.New(db)
 	newState := state{
-		config: &newConfig,
+		db: dbQueries,
+		cfg: &newConfig,
 	}
 	newCommands := commands{
 		command_list: map[string]func(*state, command) error{},

@@ -4,10 +4,12 @@ import (
 	"errors"
 
 	"github.com/RivellionCS/gator/internal/config"
+	"github.com/RivellionCS/gator/internal/database"
 )
 
 type state struct {
-	config *config.Config
+	db *database.Queries
+	cfg *config.Config
 }
 
 type command struct {
