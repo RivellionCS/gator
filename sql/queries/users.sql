@@ -16,3 +16,6 @@ LIMIT 1;
 
 -- name: DeleteUsers :exec
 TRUNCATE TABLE users;
+
+-- name: GetUsers :many
+SELECT * FROM users;
