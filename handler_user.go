@@ -48,3 +48,12 @@ func handlerRegister(s *state, cmd command) error {
 	fmt.Printf("A new user has been created:\n%v\n", user)
 	return nil
 }
+
+func handlerReset(s *state, cmd command) error {
+	err := s.db.DeleteUsers(context.Background())
+	if err != nil {
+		return fmt.Errorf("couldn't delete all users: %w", err)
+	}
+	fmt.Println("sucessfully deleted all users from table")
+	return nil
+}
