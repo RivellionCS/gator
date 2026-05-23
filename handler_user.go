@@ -14,7 +14,14 @@ func handlerLogin(s *state, cmd command) error {
 	if len(cmd.arguments) == 0 {
 		return errors.New("the login handler expects a single argument, the username")
 	}
-	s.cfg.SetUser(cmd.arguments[0])
+	_, err := s.db.GetUser(context.Background(), cmd.arguments[0])
+	if err != nil {
+		return fmt.Errorf("user %s does not exist: %w", cmd.arguments[0], err)
+	}
+	err = s.cfg.SetUser(cmd.arguments[0])
+	if err != nil {
+		return fmt.Errorf("could not set user: %w", err)
+	}
 	fmt.Println("the user has been set")
 	return nil
 }
