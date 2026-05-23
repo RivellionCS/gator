@@ -17,6 +17,10 @@ func main() {
 		os.Exit(1)
 	}
 	db, err := sql.Open("postgres", newConfig.DbURL)
+	if err != nil {
+		fmt.Printf("Error connecting to db: %v\n", err)
+		os.Exit(1)
+	}
 	dbQueries := database.New(db)
 	newState := state{
 		db: dbQueries,
@@ -26,6 +30,7 @@ func main() {
 		command_list: map[string]func(*state, command) error{},
 	}
 	newCommands.register("login", handlerLogin)
+	newCommands.register("register", handlerRegister)
 	arguments := os.Args
 	if len(arguments) < 2 {
 		fmt.Println("arguments can't be less than 2")
