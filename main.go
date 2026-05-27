@@ -34,6 +34,7 @@ func main() {
 	newCommands.register("reset", handlerReset)
 	newCommands.register("users", handlerListUsers)
 	newCommands.register("agg", handlerAgg)
+	newCommands.register("addfeed", handlerAddFeed)
 	arguments := os.Args
 	if len(arguments) < 2 {
 		fmt.Println("arguments can't be less than 2")
