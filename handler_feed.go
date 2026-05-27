@@ -10,6 +10,9 @@ import (
 )
 
 func handlerAddFeed(s *state, cmd command) error {
+	if len(cmd.arguments) != 2 {
+		return fmt.Errorf("The add feed handler requires the name and the url as arguments")
+	}
 	name := cmd.arguments[0]
 	url := cmd.arguments[1]
 	userName := s.cfg.CurrentUserName
@@ -32,6 +35,12 @@ func handlerAddFeed(s *state, cmd command) error {
 	if err != nil {
 		return fmt.Errorf("error creating feed: %v", err)
 	}
-	fmt.Printf("Printing feed:\n%v\n", feed)
+	fmt.Println("Printing feed:")
+	fmt.Printf("ID: %v\n", feed.ID)
+	fmt.Printf("CreatedAt: %v\n", feed.CreatedAt)
+	fmt.Printf("UpdatedAt: %v\n", feed.UpdatedAt)
+	fmt.Printf("Name: %v\n", feed.Name)
+	fmt.Printf("Url: %v\n", feed.Url)
+	fmt.Printf("UserID: %v\n", feed.UserID)
 	return nil
 }
