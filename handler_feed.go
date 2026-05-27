@@ -10,7 +10,15 @@ import (
 )
 
 func handlerFeeds(s *state, cmd command) error {
-	
+	feeds, err := s.db.GetFeeds(context.Background())
+	if err != nil {
+		return fmt.Errorf("Error getting feeds: %v", err)
+	}
+	for _,feed := range feeds {
+		fmt.Printf("Feed Name: %v\n", feed.FeedsName)
+		fmt.Printf("Feed Url: %v\n", feed.FeedsUrl)
+		fmt.Printf("Feed User: %v\n", feed.UserName)
+	}
 	return nil
 }
 
