@@ -9,6 +9,11 @@ import (
 	"github.com/google/uuid"
 )
 
+func handlerFeeds(s *state, cmd command) error {
+	
+	return nil
+}
+
 func handlerAddFeed(s *state, cmd command) error {
 	if len(cmd.arguments) != 2 {
 		return fmt.Errorf("The add feed handler requires the name and the url as arguments")
