@@ -1,4 +1,4 @@
--- +goose up
+-- +goose Up
 CREATE TABLE feeds (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     created_at TIMESTAMP NOT NULL,
@@ -13,5 +13,5 @@ CREATE TABLE feeds (
         ON DELETE CASCADE
 );
 
--- +goose down
+-- +goose Down
 DROP TABLE feeds;
