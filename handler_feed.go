@@ -35,7 +35,7 @@ func handlerAddFeed(s *state, cmd command) error {
 	}
 
 	currentTime := time.Now()
-	params := database.CreateFeedParams{
+	feedParams := database.CreateFeedParams{
 		ID: uuid.New(),
 		CreatedAt: currentTime,
 		UpdatedAt: currentTime,
@@ -44,10 +44,23 @@ func handlerAddFeed(s *state, cmd command) error {
 		UserID: user.ID,
 
 	}
-	feed, err := s.db.CreateFeed(context.Background(), params)
+	feed, err := s.db.CreateFeed(context.Background(), feedParams)
 	if err != nil {
 		return fmt.Errorf("error creating feed: %v", err)
 	}
+
+	feedFollowParams := database.CreateFeedFollowParams{
+		ID: uuid.New(),
+		CreatedAt: currentTime,
+		UpdatedAt: currentTime,
+		UserID: user.ID,
+		FeedID: feed.ID,
+	}
+	_, err = s.db.CreateFeedFollow(context.Background(), feedFollowParams)
+	if err != nil {
+		return fmt.Errorf("error creating feed follow: %v", err)
+	}
+	
 	fmt.Println("Printing feed:")
 	fmt.Printf("ID: %v\n", feed.ID)
 	fmt.Printf("CreatedAt: %v\n", feed.CreatedAt)
