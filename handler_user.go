@@ -49,15 +49,6 @@ func handlerRegister(s *state, cmd command) error {
 	return nil
 }
 
-func handlerReset(s *state, cmd command) error {
-	err := s.db.DeleteUsers(context.Background())
-	if err != nil {
-		return fmt.Errorf("couldn't delete all users: %w", err)
-	}
-	fmt.Println("sucessfully deleted all users from table")
-	return nil
-}
-
 func handlerListUsers(s *state, cmd command) error {
 	users, err := s.db.GetUsers(context.Background())
 	if err != nil {
@@ -70,14 +61,5 @@ func handlerListUsers(s *state, cmd command) error {
 			fmt.Printf("* %v\n", user.Name)
 		}
 	}
-	return nil
-}
-
-func handlerAgg(s *state, cmd command) error {
-	feed, err := fetchFeed(context.Background(), "https://www.wagslane.dev/index.xml")
-	if err != nil {
-		return fmt.Errorf("error fetching feed: %v\n", err)
-	}
-	fmt.Printf("Printing Feed:\n%v\n", feed)
 	return nil
 }
