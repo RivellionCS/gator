@@ -22,17 +22,12 @@ func handlerFeeds(s *state, cmd command) error {
 	return nil
 }
 
-func handlerAddFeed(s *state, cmd command) error {
+func handlerAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.arguments) != 2 {
 		return fmt.Errorf("The add feed handler requires the name and the url as arguments")
 	}
 	name := cmd.arguments[0]
 	url := cmd.arguments[1]
-	userName := s.cfg.CurrentUserName
-	user, err  := s.db.GetUser(context.Background(), userName)
-	if err != nil {
-		return fmt.Errorf("error getting user: %v", err)
-	}
 
 	currentTime := time.Now()
 	feedParams := database.CreateFeedParams{
