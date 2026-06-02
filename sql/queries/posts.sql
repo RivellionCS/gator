@@ -17,5 +17,5 @@ SELECT posts.*
 FROM posts
 JOIN feed_follows ON posts.feed_id = feed_follows.feed_id
 WHERE user_id = $1
-ORDER BY updated_at DESC
+ORDER BY posts.updated_at DESC
 LIMIT $2;
