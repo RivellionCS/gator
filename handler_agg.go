@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 )
 
 
@@ -10,12 +11,15 @@ func handlerAgg(s *state, cmd command) error {
 	if len(cmd.arguments) != 1 {
 		return fmt.Errorf("the agg command expects 1 time argument")
 	}
-	feed, err := fetchFeed(context.Background(), "https://www.wagslane.dev/index.xml")
+	timeBetweenReqs, err := time.ParseDuration(cmd.arguments[0])
 	if err != nil {
-		return fmt.Errorf("error fetching feed: %v\n", err)
+		return fmt.Errorf("error parsing time: %v", err)
 	}
-	fmt.Printf("Printing Feed:\n%v\n", feed)
-	return nil
+	ticker := time.NewTicker(timeBetweenReqs)
+	fmt.Printf("Collecting feeds every %v\n", timeBetweenReqs)
+	for ; ; <-ticker.C {
+		scrapeFeeds(s)
+	}
 }
 
 func scrapeFeeds(s *state) error {
@@ -32,7 +36,7 @@ func scrapeFeeds(s *state) error {
 		return fmt.Errorf("error fetching feed by url: %v", err)
 	}
 	for _, item := range rssFeed.Channel.Item {
-		fmt.Println(item.Title)
+		fmt.Printf("Printing Item Title: %v\n",item.Title)
 	}
 	return nil
 }
