@@ -20,7 +20,7 @@ SELECT * FROM feeds
 WHERE url = $1
 LIMIT 1;
 
--- name: MarkFetchedFeed :exec
+-- name: MarkFeedFetched :exec
 UPDATE feeds
 SET last_fetched_at = NOW(),
     updated_at = NOW()
