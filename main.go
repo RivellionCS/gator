@@ -39,6 +39,7 @@ func main() {
 	newCommands.register("follow", middlewareLoggedIn(handlerFollow))
 	newCommands.register("following", middlewareLoggedIn(handlerFollowing))
 	newCommands.register("unfollow", middlewareLoggedIn(handlerUnfollow))
+	newCommands.register("browse", middlewareLoggedIn(handlerBrowse))
 	arguments := os.Args
 	if len(arguments) < 2 {
 		fmt.Println("arguments can't be less than 2")
